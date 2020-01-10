@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Practicedoc
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.eriala) {
+  if (!req.body.praktika_ettevote) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
@@ -14,17 +14,18 @@ exports.create = (req, res) => {
 
   // Create a Practicedoc
   const practicedoc = {
-    //title: req.body.title,
-    //description: req.body.description,
-    //published: req.body.published ? req.body.published : false
-    eriala: req.body.eriala,
-    praktika_periood: req.body.praktika_periood,
-    opilase_nimi: req.body.opilase_nimi,
-    praktika_maht: req.body.praktika_maht,
-    praktika_nimi: req.body.praktika_nimi,
-    praktika_reg: req.body.praktika_reg,
+    
+    praktika_ettevote: req.body.praktika_ettevote,
     praktika_telefon: req.body.praktika_telefon,
-    //praktika_email: req.body.praktika_email
+    praktika_email: req.body.praktika_email,
+    juriidiline_aadress: req.body.juriidiline_aadress,
+    lepingusolmija_nimi: req.body.lepingusolmija_nimi,
+    lepingusolmija_amet: req.body.lepingusolmija_amet,
+    lepingu_alus: req.body.lepingu_alus,
+    juhendaja_nimi: req.body.juhendaja_nimi,
+    juhendaja_amet: req.body.juhendaja_amet,
+    juhendaja_telefon: req.body.juhendaja_telefon
+    
   };
 
   // Save Practicedoc in the database
