@@ -20,5 +20,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.practicedocs = require("./practicedoc.model.js")(sequelize, Sequelize);
+db.studentdocs = require("./studentdoc.model.js")(sequelize, Sequelize);
 
 module.exports = db;
