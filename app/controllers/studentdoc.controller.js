@@ -1,4 +1,5 @@
 const db = require("../models");
+const sendEmail = require('../utils/email');
 const Studentdoc = db.studentdocs;
 const Op = db.Sequelize.Op;
 
@@ -24,6 +25,17 @@ exports.create = (req, res) => {
   };
 
   // Save Practicedoc in the database
+  sendEmail({
+    email: req.body.praktika_email,
+    subject: `Praktikadokumendid õpilane: ${req.body.opilase_nimi}`,
+    text: `Õpilase poolsed anmded praktikatautluses
+    Eriala/valdkond: ${req.body.eriala_valdkond}
+    Õpilase nimi: ${req.body.opilase_nimi}
+    Praktikaperiood: ${req.body.praktika_periood}
+    Praktika maht astronoomilistes tundides EKAP-tes: ${req.body.prakika_maht}
+    id ${req.body.id}`
+  });
+
   Studentdoc.create(studentdoc)
     .then(data => {
       res.send(data);
@@ -33,7 +45,7 @@ exports.create = (req, res) => {
         message:
           err.message || "Some error occurred while creating the Practicedoc."
       });
-    });
+  });
 };
 
 // Retrieve all Practicedocs from the database.

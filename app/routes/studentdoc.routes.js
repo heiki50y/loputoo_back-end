@@ -23,6 +23,8 @@ module.exports = app => {
   
     // Create a new Practicedoc
     router.delete("/", practicedocs.deleteAll);
+
+    // app.post("/send", practicedocs.sendEmail);
   
     app.use('/api/studentdoc', router);
   };
