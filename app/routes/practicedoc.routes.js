@@ -1,28 +1,23 @@
-module.exports = app => {
-  const practicedocs = require("../controllers/practicedoc.controller.js");
+const express = require('express');
+const {
+    findAllDoc,
+    findOneDoc,
+    createDoc,
+    updateDoc,
+    deleteDoc
+} = require('../controllers/practicedoc.controller');
 
-  var router = require("express").Router();
+const router = express.Router();
 
-  // Create a new Practicedoc
-  router.post("/", practicedocs.create);
+router
+    .route('/')
+    .get(findAllDoc)
+    .post(createDoc);
 
-  // Retrieve all Practicedocs
-  router.get("/", practicedocs.findAll);
+router
+    .route('/:id')
+    .get(findOneDoc)
+    .put(updateDoc)
+    .delete(deleteDoc);
 
-  // Retrieve all published Practicedocs
-  router.get("/published", practicedocs.findAllPublished);
-
-  // Retrieve a single Practicedoc with id
-  router.get("/:id", practicedocs.findOne);
-
-  // Update a Practicedoc with id
-  router.put("/:id", practicedocs.update);
-
-  // Delete a Practicedoc with id
-  router.delete("/:id", practicedocs.delete);
-
-  // Create a new Practicedoc
-  router.delete("/", practicedocs.deleteAll);
-
-  app.use('/api/practicedocs', router);
-};
+module.exports = router;

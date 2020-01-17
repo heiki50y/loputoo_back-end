@@ -4,7 +4,7 @@ const Studentdoc = db.studentdocs;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Practicedoc
-exports.create = (req, res) => {
+exports.createDoc = (req, res) => {
   // Validate request
   if (!req.body.eriala_valdkond) {
     res.status(400).send({
@@ -25,16 +25,16 @@ exports.create = (req, res) => {
   };
 
   // Save Practicedoc in the database
-  sendEmail({
-    email: req.body.praktika_email,
-    subject: `Praktikadokumendid õpilane: ${req.body.opilase_nimi}`,
-    text: `Õpilase poolsed anmded praktikatautluses
-    Eriala/valdkond: ${req.body.eriala_valdkond}
-    Õpilase nimi: ${req.body.opilase_nimi}
-    Praktikaperiood: ${req.body.praktika_periood}
-    Praktika maht astronoomilistes tundides EKAP-tes: ${req.body.prakika_maht}
-    id ${req.body.id}`
-  });
+  // sendEmail({
+  //   email: req.body.praktika_email,
+  //   subject: `Praktikadokumendid õpilane: ${req.body.opilase_nimi}`,
+  //   text: `Õpilase poolsed anmded praktikatautluses
+  //   Eriala/valdkond: ${req.body.eriala_valdkond}
+  //   Õpilase nimi: ${req.body.opilase_nimi}
+  //   Praktikaperiood: ${req.body.praktika_periood}
+  //   Praktika maht astronoomilistes tundides EKAP-tes: ${req.body.prakika_maht}
+  //   id ${req.body.id}`
+  // });
 
   Studentdoc.create(studentdoc)
     .then(data => {
@@ -45,11 +45,25 @@ exports.create = (req, res) => {
         message:
           err.message || "Some error occurred while creating the Practicedoc."
       });
+
+      console.log(data);
   });
+
+  sendEmail({
+    email: req.body.praktika_email,
+    subject: `Praktikadokumendid õpilane: ${req.body.opilase_nimi}`,
+    text: `Õpilase poolsed anmded praktikatautluses
+    Eriala/valdkond: ${req.body.eriala_valdkond}
+    Õpilase nimi: ${req.body.opilase_nimi}
+    Praktikaperiood: ${req.body.praktika_periood}
+    Praktika maht astronoomilistes tundides EKAP-tes: ${req.body.prakika_maht}
+    id ${req.params.id}`
+  });
+  
 };
 
 // Retrieve all Practicedocs from the database.
-exports.findAll = (req, res) => {
+exports.findAllDoc = (req, res) => {
   const title = req.query.eriala;
   var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
@@ -66,7 +80,7 @@ exports.findAll = (req, res) => {
 };
 
 // Find a single Practicedoc with an id
-exports.findOne = (req, res) => {
+exports.findOneDoc = (req, res) => {
   const id = req.params.id;
 
   Studentdoc.findByPk(id)
@@ -80,8 +94,36 @@ exports.findOne = (req, res) => {
     });
 };
 
+exports.sendDoc = (req, res) => {
+  const id = req.params.id;
+
+  Studentdoc.findByPk(req.body, {
+    where: { id: id }
+  })
+
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: "Error retrieving Practicedoc with id=" + id
+    });
+  });
+
+  sendEmail({
+    email: req.body.praktika_email,
+    subject: `Praktikadokumendid õpilane: ${req.body.opilase_nimi}`,
+    text: `Õpilase poolsed anmded praktikatautluses
+    Eriala/valdkond: ${req.body.eriala_valdkond}
+    Õpilase nimi: ${req.body.opilase_nimi}
+    Praktikaperiood: ${req.body.praktika_periood}
+    Praktika maht astronoomilistes tundides EKAP-tes: ${req.body.prakika_maht}
+    id ${req.params.id}`
+  });
+}
+
 // Update a Practicedoc by the id in the request
-exports.update = (req, res) => {
+exports.updateDoc = (req, res) => {
   const id = req.params.id;
 
   Studentdoc.update(req.body, {
@@ -106,7 +148,7 @@ exports.update = (req, res) => {
 };
 
 // Delete a Practicedoc with the specified id in the request
-exports.delete = (req, res) => {
+exports.deleteDoc = (req, res) => {
   const id = req.params.id;
 
   Studentdoc.destroy({
@@ -126,37 +168,6 @@ exports.delete = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message: "Could not delete Practicedoc with id=" + id
-      });
-    });
-};
-
-// Delete all Practicedocs from the database.
-exports.deleteAll = (req, res) => {
-  Studentdoc.destroy({
-    where: {},
-    truncate: false
-  })
-    .then(nums => {
-      res.send({ message: `${nums} Practicedocs were deleted successfully!` });
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all practicedocs."
-      });
-    });
-};
-
-// find all published Practicedoc
-exports.findAllPublished = (req, res) => {
-  Studentdoc.findAll({ where: { published: true } })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving practicedocs."
       });
     });
 };

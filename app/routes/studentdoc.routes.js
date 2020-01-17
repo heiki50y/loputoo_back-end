@@ -1,31 +1,23 @@
-module.exports = app => {
-    const practicedocs = require("../controllers/studentdoc.controller.js");
-  
-    var router = require("express").Router();
-  
-    // Create a new Practicedoc
-    router.post("/", practicedocs.create);
-  
-    // Retrieve all Practicedocs
-    router.get("/", practicedocs.findAll);
-  
-    // Retrieve all published Practicedocs
-    router.get("/published", practicedocs.findAllPublished);
-  
-    // Retrieve a single Practicedoc with id
-    router.get("/:id", practicedocs.findOne);
-  
-    // Update a Practicedoc with id
-    router.put("/:id", practicedocs.update);
-  
-    // Delete a Practicedoc with id
-    router.delete("/:id", practicedocs.delete);
-  
-    // Create a new Practicedoc
-    router.delete("/", practicedocs.deleteAll);
+const express = require('express');
+const {
+    findOneDoc,
+    findAllDoc,
+    createDoc,
+    updateDoc,
+    deleteDoc
+} = require('../controllers/studentdoc.controller');
 
-    // app.post("/send", practicedocs.sendEmail);
-  
-    app.use('/api/studentdoc', router);
-  };
-  
+const router = express.Router();
+
+router
+    .route('/')
+    .get(findAllDoc)
+    .post(createDoc);
+
+router
+    .route('/:id')
+    .get(findOneDoc)
+    .put(updateDoc)
+    .delete(deleteDoc);
+
+module.exports = router;
