@@ -38,19 +38,3 @@ module.exports = (sequelize, Sequelize) => {
   return Practicedoc;
 };
 
-/*module.exports = (sequelize, Sequelize) => {
-  const Practicedoc = sequelize.define("practicedoc", {
-    title: {
-      type: Sequelize.STRING
-    },
-    description: {
-      type: Sequelize.STRING
-    },
-    published: {
-      type: Sequelize.BOOLEAN
-    }
-  });
-
-  return Practicedoc;
-};*/
-
