@@ -9,6 +9,7 @@ dotenv.config({ path: './app/config/config.env' });
 // Route files
 const studentDocument = require('./app/routes/studentdoc.routes');
 const companyDocument = require('./app/routes/practicedoc.routes');
+const users = require('./app/routes/user.routes');
 
 const app = express();
 
@@ -36,6 +37,7 @@ db.sequelize.sync();
 // Mount routes
 app.use('/api/studentdoc', studentDocument);
 app.use('/api/practicedocs', companyDocument);
+app.use('/api/users', users);
 
 const PORT = process.env.PORT || 8080;
 
