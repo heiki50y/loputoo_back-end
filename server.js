@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require('dotenv');
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
+const errorHandler = require('./app/middleware/error')
 const cors = require("cors");
 
 // Load env vars
@@ -19,8 +20,8 @@ const app = express();
 
 // app.use(cors(corsOptions));
 
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
+// Body parser
+app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,6 +39,8 @@ db.sequelize.sync();
 app.use('/api/studentdoc', studentDocument);
 app.use('/api/practicedocs', companyDocument);
 app.use('/api/users', users);
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 8080;
 
