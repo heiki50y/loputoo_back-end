@@ -1,103 +1,108 @@
-const db = require("../models");
+const db = require('../models');
+const ErrorResponse = require('../utils/errorResponse');
 const User = db.user;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Practicedoc
-exports.createUser = (req, res) => {
+// Create new user
+exports.createUser = async (req, res, next) => {
+  try {
+    const user = await User.create(req.body);
+
+      res.status(201).json({
+          success: true,
+          data: user
+      });
+  } catch (err) {
+      next(err)
+  }
+};
+
+// Get all users
+exports.getAllUsers = async (req, res, next) => {
+
+  try {
+    const users = await User.findAll();
+
+    res.status(200).json({ 
+      success: true, 
+      count: users.length, 
+      data: users
+    });
+  } catch (err) {
+      next(err);
+  }
+};
+
+// Get user
+exports.getUser = async (req, res, next) => {
   
-  // Create a Practicedoc
-  const user = req.body
+  try {
+    const user = await User.findByPk(req.params.id);
 
-  // Save user in the database
-  User.create(user)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the user."
+    if(!user) {
+      return  next(
+          new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+      );
+    }
+
+      res.status(200).json({
+        success: true,
+         data: user 
       });
-    });
+
+  } catch (err) {
+      next(err);
+  }
 };
 
-// Retrieve all Practicedocs from the database.
-exports.getAllUsers = (req, res) => {
-  const title = req.query.email;
-  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+// Update user
+exports.updateUser = async (req, res, next) => {
+  const id = req.params.id;
+  
+  try {
+    
 
-  User.findAll({ where: condition })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving."
-      });
-    });
+    // await User.update(req.body, {
+    //   where: { id: id }
+    // })
+
+    await User.update(
+      {firstName: req.body.firstName},
+      {returning: true, where: {id: id} }
+    )
+
+    if(!id) {
+      return  next(
+          new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+      );
+    }
+
+    res.status(200).json({success: true, data: req.body});
+
+  } catch (err) {
+    next(err);
+  }
 };
 
-exports.getUser = (req, res) => {
+// Delete user
+exports.deleteUser = async (req, res, next) => {
   const id = req.params.id;
 
-  User.findByPk(id)
-    .then(data => {
-      res.send(data);
+  try {
+
+    await User.destroy({
+      where: { id: id }
     })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error retrieving Practicedoc with id=" + id
-      });
-    });
-};
 
-// Update a Practicedoc by the id in the request
-exports.updateUser = (req, res) => {
-  const id = req.params.id;
+    if(!id) {
+      return  next(
+          new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+      );
+    }
+    
+    res.status(200).json({success: true, data: {}});
 
-  User.update(req.body, {
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "User was updated successfully."
-        });
-      } else {
-        res.send({
-          message: `Cannot update Practicedoc with id=${id}. Maybe Practicedoc was not found or req.body is empty!`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error updating user with id=" + id
-      });
-    });
-};
-
-// Delete a Practicedoc with the specified id in the request
-exports.deleteUser = (req, res) => {
-  const id = req.params.id;
-
-  User.destroy({
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "User was deleted successfully!"
-        });
-      } else {
-        res.send({
-          message: `Cannot delete User with id=${id}. Maybe Practicedoc was not found!`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Could not delete Practicedoc with id=" + id
-      });
-    });
+  } catch (err) {
+    next(err);
+  }
 };
