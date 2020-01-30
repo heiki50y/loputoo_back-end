@@ -22,6 +22,7 @@ db.sequelize = sequelize;
 db.practicedocs = require("./practicedoc.model.js")(sequelize, Sequelize);
 db.studentdocs = require("./studentdoc.model.js")(sequelize, Sequelize);
 db.user = require("./user.model.js")(sequelize, Sequelize);
+db.hinnanguleht = require('./hinnanguleht.model')(sequelize, Sequelize);
 
 
 module.exports = db;
