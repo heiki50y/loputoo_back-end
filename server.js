@@ -11,6 +11,8 @@ dotenv.config({ path: './app/config/config.env' });
 const studentDocument = require('./app/routes/studentdoc.routes');
 const companyDocument = require('./app/routes/practicedoc.routes');
 const users = require('./app/routes/user.routes');
+const auth = require('./app/routes/auth.routes');
+const hinnanguleht = require('./app/routes/hinnanguleht.routes');
 
 const app = express();
 
@@ -39,6 +41,8 @@ db.sequelize.sync();
 app.use('/api/studentdoc', studentDocument);
 app.use('/api/practicedocs', companyDocument);
 app.use('/api/users', users);
+app.use('/api/auth', auth);
+app.use('/api/hinnanguleht', hinnanguleht);
 
 app.use(errorHandler);
 
