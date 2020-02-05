@@ -9,9 +9,12 @@ const {
 
 const router = express.Router();
 
+const { protect, authorize } = require('../middleware/auth');
+
+
 router
     .route('/')
-    .get(getAllUsers)
+    .get(protect, authorize('teacher'), getAllUsers)
     .post(createUser);
 
 router
