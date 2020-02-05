@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const errorHandler = require('./app/middleware/error')
 const cors = require("cors");
+const cookieParser = require('cookie-parser');
 
 // Load env vars
 dotenv.config({ path: './app/config/config.env' });
@@ -22,8 +23,9 @@ const app = express();
 
 // app.use(cors(corsOptions));
 
-// Body parser
+// Body parser and Cookie parser
 app.use(express.json());
+app.use(cookieParser());
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
