@@ -18,7 +18,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false
         },
         role: {
-            type: Sequelize.ENUM('student', 'teacher'),
+            type: Sequelize.ENUM('student', 'admin'),
             defaultValue: 'student'
         },
         password: {
@@ -32,6 +32,9 @@ module.exports = (sequelize, Sequelize) => {
             const salt = bcrypt.genSaltSync();
             user.password = bcrypt.hashSync(user.password, salt);
           }
+        },
+        defaultScope: {
+            attributes: { exclude: ['password'] }
         }  
     });
 

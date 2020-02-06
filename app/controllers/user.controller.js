@@ -58,48 +58,45 @@ exports.getUser = async (req, res, next) => {
 // Update user
 exports.updateUser = async (req, res, next) => {
   const id = req.params.id;
-  
+  const user = await User.findByPk(req.params.id);
   try {
     
+  if(!user) {
+    return  next(
+        new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+    );
+  }
 
-    // await User.update(req.body, {
-    //   where: { id: id }
-    // })
-
-    await User.update(
-      {firstName: req.body.firstName},
-      {returning: true, where: {id: id} }
-    )
-
-    if(!id) {
-      return  next(
-          new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
-      );
-    }
-
-    res.status(200).json({success: true, data: req.body});
+  await User.update({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email
+  }, { where: {id: id} })
+                                         
+  res.status(200).json({success: true, data: req.body});
 
   } catch (err) {
     next(err);
   }
 };
 
+
 // Delete user
 exports.deleteUser = async (req, res, next) => {
   const id = req.params.id;
-
+  const user = await User.findByPk(req.params.id);
   try {
 
-    await User.destroy({
-      where: { id: id }
-    })
-
-    if(!id) {
+    if(!user) {
       return  next(
           new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
       );
     }
-    
+
+    await User.destroy({
+      where: { id: id }
+    })
+ 
     res.status(200).json({success: true, data: {}});
 
   } catch (err) {
