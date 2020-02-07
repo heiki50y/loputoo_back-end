@@ -4,6 +4,13 @@ const jwt = require('jsonwebtoken');
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define("user", {
 
+        id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.INTEGER
+        },
+
         firstName: {
             type: Sequelize.STRING,
             allowNull: false
@@ -24,7 +31,9 @@ module.exports = (sequelize, Sequelize) => {
         password: {
             type: Sequelize.STRING,
             allowNull: false
-        }
+        },
+        
+        
         
     }, {
         hooks: {
@@ -33,10 +42,22 @@ module.exports = (sequelize, Sequelize) => {
             user.password = bcrypt.hashSync(user.password, salt);
           }
         },
-        defaultScope: {
-            attributes: { exclude: ['password'] }
+        scopes: {
+            withoutPassword: {
+              attributes: { exclude: ['password'] },
+            }
         }  
     });
+
+    User.associate = (models) => {
+        User.hasOne(models.Studenddoc, {
+          foreignKey: {
+            name: 'userId',
+            allowNull: false
+          },
+          as: 'studendoc'
+        });
+    };
 
     User.prototype.getSignedJwtToken = function() {
         return jwt.sign({ id: this.id }, process.env.JWT_SECRET, {

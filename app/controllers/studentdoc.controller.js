@@ -1,69 +1,50 @@
 const db = require("../models");
+const ErrorResponse = require('../utils/errorResponse');
 const sendEmail = require('../utils/email');
 const Studentdoc = db.studentdocs;
+
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Practicedoc
-exports.createDoc = (req, res) => {
-  // Validate request
-  if (!req.body.eriala_valdkond) {
-    res.status(400).send({
-      message: "Content can not be empty!"
-    });
-    return;
-  }
+// Create Student Document 
+exports.createStudentDoc = async (req, res, next) => {
+    try {
+      req.body.userId = req.user.id
+     
+      const studentDoc = await Studentdoc.create(req.body);
 
-  // Create a Practicedoc
-  const studentdoc = {
-    
-    eriala_valdkond: req.body.eriala_valdkond,
-    opilase_nimi: req.body.opilase_nimi,
-    praktika_periood: req.body.praktika_periood,
-    prakika_maht: req.body.prakika_maht,
-    praktika_email: req.body.praktika_email
-    
-  };
+      // Check published student document
+      const publishedStudentDoc = await Studentdoc.findOne({ where: { userId: req.user.id }})
 
-  // Save Practicedoc in the database
-  // sendEmail({
-  //   email: req.body.praktika_email,
-  //   subject: `Praktikadokumendid õpilane: ${req.body.opilase_nimi}`,
-  //   text: `Õpilase poolsed anmded praktikatautluses
-  //   Eriala/valdkond: ${req.body.eriala_valdkond}
-  //   Õpilase nimi: ${req.body.opilase_nimi}
-  //   Praktikaperiood: ${req.body.praktika_periood}
-  //   Praktika maht astronoomilistes tundides EKAP-tes: ${req.body.prakika_maht}
-  //   id ${req.body.id}`
-  // });
+      // // Student can add only one document
+      if(publishedStudentDoc && req.user.role !== 'admin') {
+        return next(new ErrorResponse('The user has already published a document', 400));
+      }
 
-  Studentdoc.create(studentdoc)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Practicedoc."
+
+      res.status(201).json({
+        success: true,
+        data: studentDoc
       });
-
-      console.log(data);
-  });
-
-  sendEmail({
-    email: req.body.praktika_email,
-    subject: `Praktikadokumendid õpilane: ${req.body.opilase_nimi}`,
-    text: `Õpilase poolsed anmded praktikatautluses
-    Eriala/valdkond: ${req.body.eriala_valdkond}
-    Õpilase nimi: ${req.body.opilase_nimi}
-    Praktikaperiood: ${req.body.praktika_periood}
-    Praktika maht astronoomilistes tundides EKAP-tes: ${req.body.prakika_maht}
-    id ${req.params.id}`
-  });
-  
+    } catch (err) {
+      next(err)
+    }
 };
+  
+
+//   sendEmail({
+//     email: req.body.praktika_email,
+//     subject: `Praktikadokumendid õpilane: ${req.body.opilase_nimi}`,
+//     text: `Õpilase poolsed anmded praktikatautluses
+//     Eriala/valdkond: ${req.body.eriala_valdkond}
+//     Õpilase nimi: ${req.body.opilase_nimi}
+//     Praktikaperiood: ${req.body.praktika_periood}
+//     Praktika maht astronoomilistes tundides EKAP-tes: ${req.body.prakika_maht}
+//     id ${req.params.id}`
+//   });
+  
 
 // Retrieve all Practicedocs from the database.
-exports.findAllDoc = (req, res) => {
+exports.getAllStudentDoc = (req, res) => {
   const title = req.query.eriala;
   var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
@@ -80,7 +61,7 @@ exports.findAllDoc = (req, res) => {
 };
 
 // Find a single Practicedoc with an id
-exports.findOneDoc = (req, res) => {
+exports.getStudentDoc = (req, res) => {
   const id = req.params.id;
 
   Studentdoc.findByPk(id)
@@ -123,7 +104,7 @@ exports.sendDoc = (req, res) => {
 }
 
 // Update a Practicedoc by the id in the request
-exports.updateDoc = (req, res) => {
+exports.updateStudentDoc = (req, res) => {
   const id = req.params.id;
 
   Studentdoc.update(req.body, {
@@ -148,7 +129,7 @@ exports.updateDoc = (req, res) => {
 };
 
 // Delete a Practicedoc with the specified id in the request
-exports.deleteDoc = (req, res) => {
+exports.deleteStudentDoc = (req, res) => {
   const id = req.params.id;
 
   Studentdoc.destroy({

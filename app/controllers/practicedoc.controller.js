@@ -3,7 +3,7 @@ const Practicedoc = db.practicedocs;
 const Op = db.Sequelize.Op;
 
 // Create and Save a new Practicedoc
-exports.createDoc = (req, res) => {
+exports.createCompanyDoc = (req, res) => {
   // Validate request
   if (!req.body.praktika_ettevote) {
     res.status(400).send({
@@ -42,7 +42,7 @@ exports.createDoc = (req, res) => {
 };
 
 // Retrieve all Practicedocs from the database.
-exports.findAllDoc = (req, res) => {
+exports.getAllCompanyDoc = (req, res) => {
   const title = req.query.eriala;
   var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
@@ -59,7 +59,7 @@ exports.findAllDoc = (req, res) => {
 };
 
 // Find a single Practicedoc with an id
-exports.findOneDoc = (req, res) => {
+exports.getCompanyDoc = (req, res) => {
   const id = req.params.id;
 
   Practicedoc.findByPk(id)
@@ -74,7 +74,7 @@ exports.findOneDoc = (req, res) => {
 };
 
 // Update a Practicedoc by the id in the request
-exports.updateDoc = (req, res) => {
+exports.updateCompanyDoc = (req, res) => {
   const id = req.params.id;
 
   Practicedoc.update(req.body, {
@@ -99,7 +99,7 @@ exports.updateDoc = (req, res) => {
 };
 
 // Delete a Practicedoc with the specified id in the request
-exports.deleteDoc = (req, res) => {
+exports.deleteCompanyDoc = (req, res) => {
   const id = req.params.id;
 
   Practicedoc.destroy({
