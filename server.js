@@ -9,10 +9,10 @@ const cookieParser = require('cookie-parser');
 dotenv.config({ path: './app/config/config.env' });
 
 // Route files
-const studentDocument = require('./app/routes/studentdoc.routes');
-const companyDocument = require('./app/routes/practicedoc.routes');
+
 const users = require('./app/routes/user.routes');
 const auth = require('./app/routes/auth.routes');
+const taotlus = require('./app/routes/taotlus.routes')
 const hinnanguleht = require('./app/routes/hinnanguleht.routes');
 
 const app = express();
@@ -40,10 +40,9 @@ db.sequelize.sync();
 
 
 // Mount routes
-app.use('/api/studentdoc', studentDocument);
-app.use('/api/practicedocs', companyDocument);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
+app.use('/api/taotlus', taotlus)
 app.use('/api/hinnanguleht', hinnanguleht);
 
 app.use(errorHandler);
