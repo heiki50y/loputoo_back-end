@@ -12,7 +12,8 @@ dotenv.config({ path: './app/config/config.env' });
 
 const users = require('./app/routes/user.routes');
 const auth = require('./app/routes/auth.routes');
-const taotlus = require('./app/routes/taotlus.routes')
+const taotlus = require('./app/routes/taotlus.routes');
+const teadeanded = require('./app/routes/newsfeed.routes');
 const hinnanguleht = require('./app/routes/hinnanguleht.routes');
 
 const app = express();
@@ -42,7 +43,8 @@ db.sequelize.sync();
 // Mount routes
 app.use('/api/users', users);
 app.use('/api/auth', auth);
-app.use('/api/taotlus', taotlus)
+app.use('/api/taotlus', taotlus);
+app.use('/api/teadeanded', teadeanded);
 app.use('/api/hinnanguleht', hinnanguleht);
 
 app.use(errorHandler);
