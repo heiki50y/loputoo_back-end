@@ -24,6 +24,7 @@ exports.register = async (req, res, next) => {
 };
 
 
+
 // Login with user
 exports.login = async (req, res, next) => {
     const { email, password } = req.body;
@@ -46,6 +47,28 @@ exports.login = async (req, res, next) => {
     } catch (err) {
         next(err)
     }
+};
+
+// Logout
+exports.logout = async (req, res, next) => {
+    res.cookie('token', 'none', {
+      expires: new Date(Date.now() + 10 * 1000),
+      httpOnly: true
+    });
+  
+    res.status(200).json({
+      success: true,
+      data: {}
+    });
+};
+
+exports.userProfile = async (req, res, next) => {
+    const user = await User.findByPk(req.user.id);
+  
+    res.status(200).json({
+      success: true,
+      data: user
+    });
 };
 
 // Create cookie and send response
