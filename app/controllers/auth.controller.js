@@ -5,7 +5,7 @@ const User = db.user;
 
 // Create account (register)
 exports.register = async (req, res, next) => {
-    const { firstName, lastName, email, password, role } = req.body;
+    const { firstName, lastName, email, password, role, group} = req.body;
     
     try {
         const user = await User.create({
@@ -13,7 +13,8 @@ exports.register = async (req, res, next) => {
             lastName,
             email,  
             password,
-            role
+            role,
+            group
         });
 
         sendTokenResponse(user, 200, res);

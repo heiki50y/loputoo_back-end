@@ -41,7 +41,7 @@ exports.getNewFeeds = async (req, res, next) => {
 
     if(!newFeed) {
       return  next(
-          new ErrorResponse(`Newfeed not found with id of ${req.params.id}`, 404)
+          new ErrorResponse(`Newsfeed not found with id of ${req.params.id}`, 404)
       );
     }
 
@@ -63,7 +63,7 @@ exports.updateNewFeed = async (req, res, next) => {
     
   if(!newFeed) {
     return  next(
-        new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+        new ErrorResponse(`Newsfeed not found with id of ${req.params.id}`, 404)
     );
   }
 
@@ -89,7 +89,7 @@ exports.deleteNewFeed = async (req, res, next) => {
 
     if(!newFeed) {
       return  next(
-          new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+          new ErrorResponse(`Newsfeed not found with id of ${req.params.id}`, 404)
       );
     }
 

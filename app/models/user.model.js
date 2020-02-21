@@ -28,6 +28,10 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.ENUM('student', 'admin'),
             defaultValue: 'student'
         },
+        group: {
+            type:   Sequelize.ENUM,
+            values: ['vs', 'isp', 'kd', 'is', 'SYSt']
+        },
         password: {
             type: Sequelize.STRING,
             allowNull: false

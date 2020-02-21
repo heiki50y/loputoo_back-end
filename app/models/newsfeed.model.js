@@ -8,6 +8,10 @@ module.exports = (sequelize, Sequelize) => {
         text: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        group: {
+            type:   Sequelize.ENUM,
+            values: ['vs', 'isp', 'kd', 'is', 'SYSt']
         }
 
     });

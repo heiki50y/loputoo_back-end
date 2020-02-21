@@ -40,7 +40,7 @@ exports.getCompanyDoc = async (req, res, next) => {
 
     if(!company) {
       return  next(
-          new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+          new ErrorResponse(`Company not found with id of ${req.params.id}`, 404)
       );
     }
 
@@ -62,7 +62,7 @@ exports.updateCompanyDoc = async (req, res, next) => {
     
     if(!company) {
       return  next(
-          new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+          new ErrorResponse(`Company not found with id of ${req.params.id}`, 404)
       );
     }
 
@@ -95,7 +95,7 @@ exports.deleteCompanyDoc = async (req, res, next) => {
 
     if(!company) {
       return  next(
-          new ErrorResponse(`User not found with id of ${req.params.id}`, 404)
+          new ErrorResponse(`Company not found with id of ${req.params.id}`, 404)
       );
     }
 

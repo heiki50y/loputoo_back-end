@@ -22,14 +22,14 @@ const { protect, authorize } = require('../middleware/auth');
 
 router
     .route('/student')
-    .get(getAllStudentDoc)
+    .get(protect, authorize('student', 'admin'), getAllStudentDoc)
     .post(protect, authorize('student'), createStudentDoc);
 
 router
     .route('/student/:id')
-    .get(getStudentDoc)
-    .put(updateStudentDoc)
-    .delete(deleteStudentDoc);
+    .get(protect, authorize('student', 'admin'), getStudentDoc)
+    .put(protect, authorize('student', 'admin'), updateStudentDoc)
+    .delete(protect, authorize('student', 'admin'), deleteStudentDoc);
 
 router
     .route('/company')
