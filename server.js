@@ -1,9 +1,13 @@
 const express = require("express");
+const path = require('path');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const errorHandler = require('./app/middleware/error')
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const rateLimit = require('express-rate-limit');
 
 // Load env vars
 dotenv.config({ path: './app/config/config.env' });
@@ -18,11 +22,18 @@ const hinnanguleht = require('./app/routes/hinnanguleht.routes');
 
 const app = express();
 
-// // var corsOptions = {
-// //   origin: "http://localhost:8081"
-// // };
+app.set('view engine', 'pug');
+app.set("views", path.join(__dirname, "app", "views"));
 
-// app.use(cors(corsOptions));
+app.get('/', function (req, res) {
+  res.render('index')
+})
+
+var corsOptions = {
+  origin: "http://localhost:8081"
+};
+
+app.use(cors(corsOptions));
 
 // Body parser and Cookie parser
 app.use(express.json());
@@ -38,6 +49,19 @@ db.sequelize.sync();
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });
+
+// Set security headers
+app.use(helmet());
+
+// Prevent xss attacks
+app.use(xss());
+
+// Rate limit
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 mins
+  max: 100
+});
+app.use(limiter);
 
 
 // Mount routes
