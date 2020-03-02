@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praktika taoutlus</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <page size="A4">
+        <div class="taotlus-container">
+            <img src="./img/khk_logo.PNG" alt=""><br>
+            <div class="flex">
+                <div class="juht">
+                    <p>Lp ettevõte juht</p>
+                    <p class="muutuja">{{ name }}</p>
+                </div>
+                <div class="date">
+                    <p>Kuupäev</p>
+                    <p class="muutuja">{{ date }}</p>
+                </div>
+            </div>
+            <div class="taotlus">
+                <h3>Taotlus</h3><br>
+                <p>Palun  võimaldada Tartu Kutsehariduskeskuse õpilasel sooritada praktika Teie ettevõttes. Praktikajuhend esitatakse käesoleva taotluse lisana.</p>
+            </div>
+            <div class="praktika_andmed">
+                <p>Praktika andmed:</p><br>
+                <table class="table-1">
+                    <tr>
+                      <td class="bold">Eriala/valdkond</td>
+                      <td class="andmed">{{ content }}</td>
+                    </tr>
+                    <tr>
+                      <td class="bold">Õpilase nimi</td>
+                      <td class="andmed">{{ content }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Praktikaperiood</td>
+                        <td class="andmed">{{ content }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Praktika maht astronoomilistes <br> tundides/EKAP-tes</td>
+                        <td class="andmed">{{ content }}</td>
+                    </tr>
+                </table>
+                <br>
+                <p class="bold">Teie nõusoleku korral  palun täita alljärgnevad andmed praktikalepingu vormistamiseks</p><br><br>
+                <table class="table-1">
+                    <tr>
+                      <td class="bold">Praktikakoha nimi ja reg.kood:</td>
+                      <td class="andmed">{{ content }}</td>
+                    </tr>
+                    <tr>
+                      <td class="bold">Praktikakoha telefon ja e-posti aadress</td>
+                      <td class="andmed">{{ content }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Juriidiline aadress ja postiindeks</td>
+                        <td class="andmed">{{ content }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Lepingu sõlmija nimi ja amet </td>
+                        <td class="andmed">{{ content }}</td>
+                    </tr>
+                    <tr>
+                        <td ><span class="bold">Lepingu allkirjastamise alus</span> <span>(nt volikirja, põhikirja, kodukorra, põhimääruse vms alusel)</span> </td>
+                        <td class="andmed">{{ content }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Kui praktika ei toimu juriidilisel aadressil, siis palun kirjutage tegeliku praktikakoha nimi ja aadress </td>
+                        <td class="andmed">{{ content }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Praktikajuhendaja nimi ja amet  </td>
+                        <td class="andmed">{{ content }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Praktikajuhendaja kontakttelefon(id): </td>
+                        <td class="andmed">{{ content }}</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">E-mail</td>
+                        <td class="andmed">{{ content }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+      </page>
+    <page size="A4">
+        <div class="taotlus-container">
+            <p> Palun märkige, missuguseid ülesandeid (õpiväljundeid) on õpilasel praktikal võimalik sooritada (leitavad praktikajuhendist hindamiskriteeriumi tabelist)</p><br>
+            <table class="table-1">
+                <tr>
+                  <td class="ulesanded">{{ content }}</td>
+                  <td><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ulesanded">{{ content }}</td>
+                    <td><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ulesanded">{{ content }}</td>
+                    <td><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ulesanded">{{ content }}</td>
+                    <td><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ulesanded">{{ content }}</td>
+                    <td><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ulesanded">{{ content }}</td>
+                    <td><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ulesanded">{{ content }}</td>
+                    <td><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td class="ulesanded">{{ content }}</td>
+                    <td><input type="checkbox"></td>
+                </tr>
+            </table><br><br>
+            <table class="table-1">
+                <tr>
+                  <td class="jah-ei">Soovime digitaalselt allkirjastatud lepingut (märkige sobiv)</td>
+                  <td>
+                      <label for="checkbox">Jah</label>
+                      <input type="checkbox">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="jah-ei"><br></td>
+                  <td>
+                    <label for="checkbox">Ei</label>
+                    <input type="checkbox">
+                </td>
+                </tr>
+                <tr>
+                    <td class="jah-ei">Soovime praktikadokumentatsiooni (päevik, hinnangulehed jms) täita elektroonselt (märkige sobiv)</td>
+                  <td>
+                    <label for="checkbox">Jah</label>
+                    <input type="checkbox">
+                </td>
+                </tr>
+                <tr>
+                    <td class="jah-ei"><br></td>
+                    <td>
+                        <label for="checkbox">Ei</label>
+                        <input type="checkbox">
+                    </td>
+                </tr>
+            </table>
+            
+            <div class="khk">
+                <ul>
+                    <li>Meeldivat koostööd soovides</li>
+                    <li>Tartu KHK koolipoolne praktikajuhendaja:</li>
+                    <li>Hellika Ivanov-Simson</li>
+                    <li>E-post hellika.ivanov@khk.ee</li>
+                    <li>Tel +372 5656 7461</li>
+                </ul>
+            </div>
+        </div>
+    </page>
+</body>
+</html>

@@ -1,0 +1,123 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; 
+}
+
+html {
+  font-size: 62.5%; 
+  font-size: 1rem;
+}
+  
+body {
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    /* line-height: 1.7; */
+    margin: 1rem;
+    background: rgb(204,204,204); 
+}
+
+page {
+    background: white;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 0.5cm;
+    box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+    
+}
+
+page[size="A4"] {  
+    width: 21cm;
+    height: 29.7cm; 
+}
+
+page[size="A4"][layout="landscape"] {
+    width: 29.7cm;
+    height: 21cm;  
+}
+
+.taotlus-container {
+    position: absolute;
+    margin: 2.5cm 2.5cm 2cm 3cm;
+    width: 16cm;
+    
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.juht {
+    display: flex;
+    align-items: center;
+    flex: 0 0 70%;
+    
+}
+
+.date {
+    display: flex;
+    align-items: center ;
+    flex: 1;
+    
+}
+
+.muutuja {
+    margin: 0rem 1rem;
+}
+
+.taotlus {
+    margin: 1rem 0rem;
+}
+
+.taotlus > p {
+    text-align: center;
+}
+
+.table-1 {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 0px 5px;
+    text-align: left;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.andmed {
+    width: 20rem;
+    text-align: center;
+}
+
+.ulesanded {
+    width: 34rem;
+    padding: 7px 5px;
+}
+
+.jah-ei {
+    width: 22rem;
+    padding: 7px 5px;
+}
+
+.khk {
+    margin-top: 2rem;
+}
+
+.khk > ul {
+    list-style: none;
+}
+
+.khk > ul li {
+    margin: .7rem 0rem;
+}
+
